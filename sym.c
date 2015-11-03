@@ -32,10 +32,12 @@ struct id_entry *id_table[ITABSIZE] = {0}; /* identifier hash table */
  */
 void dump(int blev, FILE *f)
 {
-   for (int i = 0; i < ITABSIZE; i++) {
-      if (id_table[i]->level >= blev) {
-         printf("Dumping identifier table\n");
-         delete id_table[i];
+   fprintf(f, "Dumping identifier table\n");
+   for (int i = 0; i < ITABSIZE; i++){
+      if (id_table[i]->i_blevel >= blev){
+         struct id_entry *t = id_table[i];
+         fprintf(f, "%s\t%d\t%d\t%d\n", t->i_name, t->i_blevel, t->i_type, t->i_defined);
+         id_table[i]->i_blevel = -1;
       }
    }	
 }
@@ -67,6 +69,7 @@ void exit_block()
 void enterblock()
 {
    level++;
+   new_block();
 }
 
 /*
@@ -100,9 +103,11 @@ struct id_entry *install(char *name, int blev)
  */
 void leaveblock()
 {
+   dump(level, stdout);
    if (level > 0) {
        level--;
    }
+   exit_block();
 }
 
 /*
