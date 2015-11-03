@@ -190,7 +190,7 @@ void blockdcl()
  */
 void btail()
 {
-  //leaveblock();
+  leaveblock();
 }
 
 /*
@@ -198,15 +198,7 @@ void btail()
  */
 struct id_entry *fname(int t, char *id)
 {
-  struct id_entry *p;
-  p = (struct id_entry *) alloc(sizeof(struct id_entry));
-
-  p = install(id, t);
-  p->i_type = T_INT;
-  p->i_scope = LOCAL;
-  p->i_defined = 1;
-
-  return &p;
+  enterblock();
 }
 
 /*

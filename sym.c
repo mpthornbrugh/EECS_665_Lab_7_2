@@ -103,7 +103,7 @@ struct id_entry *install(char *name, int blev)
  */
 void leaveblock()
 {
-   dump(level, stdout);
+   if (level > 1) dump(level, stdout);
    if (level > 0) {
        level--;
    }
